@@ -1,257 +1,432 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Footers</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Footers</title>
+  <style>
+    :root {
+      --bg-color-light: #f4f4f4;
+      --bg-color-dark: #1e1e1e;
+      --container-bg-light: white;
+      --container-bg-dark: #2c2c2c;
+      --text-color-light: black;
+      --text-color-dark: white;
+      --border-color-light: #ccc;
+      --border-color-dark: #444;
+      --preview-bg-light: #f9f9f9;
+      --preview-bg-dark: #333;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            width: 100%;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: var(--bg-color-light);
+      color: var(--text-color-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-        label {
-            font-size: 14px;
-            margin-bottom: 5px;
-            display: block;
-        }
+    .container {
+      max-width: 1200px;
+      width: 90%;
+      background: var(--container-bg-light);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      transition: background 0.3s;
+      margin-bottom: 20px;
+    }
 
-        select,
-        input[type="text"],
-        button,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
-            border-radius: 8px;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--text-color-light);
+    }
 
-        select,
-        input[type="text"] {
-            height: 40px;
-        }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
 
-        button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: bold;
-            width: auto;
-            margin-top: 10px;
-        }
+    .column {
+      flex: 1;
+      margin: 0 10px;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-        textarea {
-            height: 120px;
-            resize: none;
-            width: calc(100% - 100px);
-            display: inline-block;
-        }
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      background-color: var(--container-bg-light);
+      color: var(--text-color-light);
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      border: 1px solid var(--border-color-light);
+    }
 
-        .textarea-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    input[type="text"] {
+      width: calc(100% - 20px);
+    }
 
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-        }
+    .center {
+      text-align: center;
+    }
 
-        .checkbox-container input {
-            margin-right: 10px;
-        }
+    .checkbox-container {
+      margin-bottom: 20px;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-            width: 100%;
-        }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
 
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
-        }
+    /* Vista previa de código en formato texto */
+    .preview {
+      position: relative;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px dashed var(--border-color-light);
+      background-color: var(--preview-bg-light);
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+      cursor: pointer;
+      white-space: pre-wrap;
+      font-family: monospace;
+      max-height: 300px;
+      overflow-y: auto;
+    }
 
-        .modal-content {
-            background-color: #1e1e1e;
-            color: #fff;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #444;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 8px;
-            height: 500px;
-            overflow-y: auto;
-        }
+    /* Botón de copiar dentro del cuadro de vista previa */
+    .copy-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 10;
+      background-color: #007bff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
-        .close {
-            color: #fff;
-            float: right;
-            font-size: 30px;
-            font-weight: bold;
-        }
+    /* Modal: ventana emergente para la vista renderizada */
+    .modal {
+      display: none; /* Oculto por defecto */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
 
-        .close:hover,
-        .close:focus {
-            color: #007BFF;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .modal-content {
+      background: white;
+      margin: 5% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 800px;
+      border: 2px solid var(--border-color-light);
+      border-radius: 8px;
+      position: relative;
+      /* Centrado de contenido interno */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        .modal-content iframe {
-            width: 100%;
-            height: 450px;
-            border: 1px solid #444;
-            border-radius: 4px;
-        }
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      background: none;
+      border: none;
+    }
 
-        .instructions {
-            font-size: 14px;
-            color: #ccc;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-    </style>
+    /* Recuadro para la vista renderizada dentro del modal */
+    #modal-body {
+      width: 100%;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color-light);
+      padding: 10px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .dark-mode {
+      --bg-color-light: var(--bg-color-dark);
+      --container-bg-light: var(--container-bg-dark);
+      --text-color-light: var(--text-color-dark);
+      --border-color-light: var(--border-color-dark);
+      --preview-bg-light: var(--preview-bg-dark);
+    }
+
+    /* Interruptor (switch) de tema */
+    .theme-switch {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 25px;
+      background-color: var(--border-color-light);
+      border-radius: 50px;
+      transition: background-color 0.3s;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch .slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background-color: #fff;
+      transition: 0.3s;
+    }
+
+    .switch input:checked + .slider {
+      transform: translateX(25px);
+      background-color: #333;
+    }
+
+    .switch input:checked + .slider:before {
+      content: '🌞';
+      color: #ffd700;
+      font-size: 14px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .switch .slider:before {
+      content: '🌙';
+      color: #fff;
+      font-size: 14px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .sun-moon-label {
+      margin-left: 10px;
+      font-size: 14px;
+      color: var(--text-color-light);
+    }
+
+    /* Cuadro de texto "Nombre del Congreso" */
+    #nombreCongresoContainer {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    /* Media Queries para dispositivos móviles */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+      .column {
+        margin: 10px 0;
+      }
+      .container {
+        padding: 20px;
+      }
+      .modal-content {
+        width: 95%;
+      }
+      /* Ajuste opcional: reducir la altura máxima de la vista previa */
+      .preview {
+        max-height: 200px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Generador de Footers</h1>
+  <div class="container">
+    <h1>Generador de Footers</h1>
+    <div class="row">
+      <!-- Columna Izquierda -->
+      <div class="column">
+        <label for="tipo-footer">Tipo de Footer</label>
+        <select id="tipo-footer">
+          <option value="formulario">Formulario</option>
+          <option value="carta-confirmacion">Carta de confirmación</option>
+        </select>
 
-        <div class="form-group">
-            <label for="idioma">Seleccione el idioma:</label>
-            <select id="idioma">
-                <option value="es">Español</option>
-                <option value="en">Inglés</option>
-                <option value="ca">Catalán</option>
-            </select>
-        </div>
+        <label for="oficina">Oficina</label>
+        <select id="oficina">
+          <option value="barcelona">Barcelona</option>
+          <option value="sevilla">Sevilla</option>
+        </select>
 
-        <div class="form-group checkbox-container">
-            <input type="checkbox" id="direccion">
-            <label for="direccion">Incluir dirección</label>
-        </div>
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="Ingrese el email" />
+      </div>
 
-        <div class="form-group checkbox-container">
-            <input type="checkbox" id="housing" onchange="toggleHousing()">
-            <label for="housing">Housing</label>
-        </div>
+      <!-- Columna Derecha -->
+      <div class="column">
+        <label for="idioma">Idioma</label>
+        <select id="idioma">
+          <option value="es">Español</option>
+          <option value="en">Inglés</option>
+          <option value="ca">Catalán</option>
+        </select>
 
-        <div id="housingFieldContainer" class="form-group" style="display: none;">
-            <label for="nombreCongreso">Nombre del congreso:</label>
-            <input type="text" id="nombreCongreso" placeholder="Introduce el nombre del congreso">
-        </div>
+        <label for="tipo-congreso">Tipo de Congreso</label>
+        <select id="tipo-congreso">
+          <option value="nacional">Nacional</option>
+          <option value="internacional">Internacional</option>
+        </select>
 
-        <div class="form-group checkbox-container">
-            <input type="checkbox" id="nuevaPlantilla" onchange="toggleNuevaPlantilla()">
-            <label for="nuevaPlantilla">Carta de confirmacion</label>
-        </div>
-
-        <div class="form-group">
-            <label for="telefonoTipo">Tipo de congreso:</label>
-            <select id="telefonoTipo">
-                <option value="nacional">Nacional</option>
-                <option value="internacional">Internacional</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="telefonoLugar">Oficina:</label>
-            <select id="telefonoLugar">
-                <option value="barcelona">Barcelona</option>
-                <option value="sevilla">Sevilla</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="nombre">Seleccione el nombre:</label>
-            <select id="nombre"></select>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email del congreso:</label>
-            <input type="text" id="email" placeholder="Introduce el email del congreso">
-        </div>
-
-        <div class="form-group">
-            <label for="web">Web del congreso:</label>
-            <input type="text" id="web" placeholder="Introduce la web del congreso">
-        </div>
-
-        <div class="form-group">
-            <button onclick="generarCodigo()">Generar Código</button>
-        </div>
-
-        <div class="form-group">
-            <div class="instructions">
-                <p>Haz clic sobre el código generado para ver la vista previa.</p>
-            </div>
-
-            <div class="textarea-container">
-                <textarea id="codigoGenerado" readonly onclick="openModal()"></textarea>
-                <button onclick="copiarCodigo()">Copiar</button>
-            </div>
-        </div>
-
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Vista Previa</h2>
-                <iframe id="vistaPrevia"></iframe>
-            </div>
-        </div>
+        <label for="web">Web</label>
+        <input type="text" id="web" placeholder="Ingrese la web" />
+      </div>
     </div>
 
-    <script>
-        const codigos = {
-            "es_con": `<!DOCTYPE html>
+    <!-- Checkbox Housing -->
+    <div class="checkbox-container">
+      <label>
+        <input type="checkbox" id="housing-checkbox" /> Housing
+      </label>
+    </div>
+
+    <!-- Cuadro de texto para "Nombre del Congreso" -->
+    <div id="nombreCongresoContainer">
+      <label for="nombreCongreso">Nombre del Congreso</label>
+      <input type="text" id="nombreCongreso" placeholder="Introduce el nombre del congreso" />
+    </div>
+
+    <!-- Checkbox para incluir dirección -->
+    <div class="checkbox-container center">
+      <label>
+        <input type="checkbox" id="custom-checkbox" /> Incluir dirección
+      </label>
+    </div>
+
+    <!-- Botón Generar -->
+    <div class="center">
+      <button id="generate-button">Generar</button>
+    </div>
+
+    <!-- Cuadro de vista previa del código (texto) -->
+    <div class="preview" id="preview">
+      <button class="copy-button" id="copy-button">Copiar Código</button>
+      La vista previa del código generado aparecerá aquí. Haz clic para ver la vista renderizada.
+    </div>
+  </div>
+
+  <!-- Modal para mostrar la vista renderizada del código -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Interruptor para cambiar entre modos claro/oscuro -->
+  <div class="theme-switch">
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle" />
+      <span class="slider"></span>
+    </label>
+    <span class="sun-moon-label">Tema Claro/Oscuro</span>
+  </div>
+
+  <script>
+    // Variable global para almacenar el código generado
+    let generatedCode = "";
+
+    // Referencias a elementos
+    const tipoFooter = document.getElementById("tipo-footer");
+    const idioma = document.getElementById("idioma");
+    const oficina = document.getElementById("oficina");
+    const direccionCheckbox = document.getElementById("custom-checkbox");
+    const preview = document.getElementById("preview");
+    const copyButton = document.getElementById("copy-button");
+    const modal = document.getElementById("modal");
+    const modalBody = document.getElementById("modal-body");
+    const modalClose = document.getElementById("modal-close");
+    const tipoCongreso = document.getElementById("tipo-congreso");
+
+    // Referencias para Housing
+    const housingCheckbox = document.getElementById("housing-checkbox");
+    const nombreCongresoContainer = document.getElementById("nombreCongresoContainer");
+
+    // Mostrar/Ocultar el cuadro de texto "Nombre del Congreso" al activar Housing
+    housingCheckbox.addEventListener("change", function() {
+      if (this.checked) {
+        nombreCongresoContainer.style.display = "block";
+      } else {
+        nombreCongresoContainer.style.display = "none";
+      }
+    });
+
+    // Función para generar la plantilla de código
+    const generateCode = () => {
+      // Obtener valores de los campos
+      const tipoFooterValue = tipoFooter.value;
+      const idiomaValue = idioma.value;
+      const oficinaValue = oficina.value;
+      const direccionValue = direccionCheckbox.checked;
+      const housingActive = housingCheckbox.checked;
+      const tipoCongresoValue = tipoCongreso.value;
+
+      let plantilla = "";
+
+      // NOTA: Se ha modificado cada plantilla para incluir siempre la cadena " nombre"
+      // que se reemplazará posteriormente según Housing o por defecto.
+      if (tipoFooterValue === "formulario") {
+        if (idiomaValue === "es") {
+          if (direccionValue) {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -350,7 +525,7 @@
 				padding: 20px !important;
 			}
 		}
-	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: transparent !important}</style><![endif]-->
 </head>
 
 <body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
@@ -362,7 +537,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -379,7 +554,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -418,7 +593,7 @@
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
 																	<p style="margin: 0; margin-bottom: 3px;">Pl. Europa, 17-19 1ª planta - 08908&nbsp;</p>
 																	<p style="margin: 0; margin-bottom: 3px;">L’Hospitalet de Llobregat, Barcelona</p>
-																	<p style="margin: 0; margin-bottom: 3px;">número</p>
+																	<p style="margin: 0; margin-bottom: 3px;">numero</p>
 																	<p style="margin: 0; margin-bottom: 3px;"><a href="mailto:coche" target="_blank" title="coche" style="text-decoration: none; color: #272626;" rel="noopener">coche</a></p>
 																	<p style="margin: 0;"><a href="http://moto" target="_blank" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
 																</div>
@@ -446,7 +621,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -487,8 +662,10 @@
 	</table><!-- End -->
 </body>
 
-</html>`,
-            "es_sin": `<!DOCTYPE html>
+</html>
+`;
+          } else {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -583,7 +760,7 @@
 				padding: 20px !important;
 			}
 		}
-	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: transparent !important}</style><![endif]-->
 </head>
 
 <body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
@@ -595,7 +772,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -612,7 +789,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -649,7 +826,7 @@
 														<tr>
 															<td class="pad">
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
-																	<p style="margin: 0; margin-bottom: 5px;">número</p>
+																	<p style="margin: 0; margin-bottom: 5px;">numero</p>
 																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" target="_blank" title="coche" style="text-decoration: none; color: #272626;" rel="noopener">coche</a></p>
 																	<p style="margin: 0;"><a href="http://moto" target="_blank" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
 																</div>
@@ -677,7 +854,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -718,8 +895,14 @@
 	</table><!-- End -->
 </body>
 
-</html>`,
-            "en_con": `<!DOCTYPE html>
+</html>`;
+            // Nota: también se puede usar "nombre" en lugar de "name", pero para mantener la coherencia se usa el mismo marcador.
+            // En este ejemplo, se usará "nombre" en todos los casos.
+            plantilla = plantilla.replace("name", "nombre");
+          }
+        } else if (idiomaValue === "en") {
+          if (direccionValue) {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -818,7 +1001,7 @@
 				padding: 20px !important;
 			}
 		}
-	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: transparent !important}</style><![endif]-->
 </head>
 
 <body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
@@ -830,7 +1013,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -847,7 +1030,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -864,7 +1047,7 @@
 														<tr>
 															<td class="pad" style="padding-right:15px;width:100%;padding-left:0px;">
 																<div class="alignment" align="center" style="line-height:10px">
-																	<div style="max-width: 180px;"><a href="https://bcocongresos.com/en/" target="_blank" style="outline:none" tabindex="-1"><img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="180" alt="Bco Congresos" title="Bco Congresos" height="auto"></a></div>
+																	<div style="max-width: 180px;"><a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1"><img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="180" alt="Bco Congresos" title="Bco Congresos" height="auto"></a></div>
 																</div>
 															</td>
 														</tr>
@@ -886,7 +1069,7 @@
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
 																	<p style="margin: 0; margin-bottom: 3px;">Pl. Europa, 17-19 1ª planta - 08908&nbsp;</p>
 																	<p style="margin: 0; margin-bottom: 3px;">L’Hospitalet de Llobregat, Barcelona</p>
-																	<p style="margin: 0; margin-bottom: 3px;">número</p>
+																	<p style="margin: 0; margin-bottom: 3px;">numero</p>
 																	<p style="margin: 0; margin-bottom: 3px;"><a href="mailto:coche" target="_blank" title="coche" style="text-decoration: none; color: #272626;" rel="noopener">coche</a></p>
 																	<p style="margin: 0;"><a href="http://moto" target="_blank" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
 																</div>
@@ -914,7 +1097,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -955,8 +1138,9 @@
 	</table><!-- End -->
 </body>
 
-</html>`,
-            "en_sin": `<!DOCTYPE html>
+</html>`;
+          } else {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -1051,7 +1235,7 @@
 				padding: 20px !important;
 			}
 		}
-	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: transparent !important}</style><![endif]-->
 </head>
 
 <body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
@@ -1063,7 +1247,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1080,7 +1264,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1117,7 +1301,7 @@
 														<tr>
 															<td class="pad">
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
-																	<p style="margin: 0; margin-bottom: 5px;">número</p>
+																	<p style="margin: 0; margin-bottom: 5px;">numero</p>
 																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" target="_blank" title="coche" style="text-decoration: none; color: #272626;" rel="noopener">coche</a></p>
 																	<p style="margin: 0;"><a href="http://moto" target="_blank" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
 																</div>
@@ -1145,7 +1329,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1167,7 +1351,7 @@
 														<tr>
 															<td class="pad" style="padding-bottom:20px;padding-top:20px;">
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:12px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:center;mso-line-height-alt:14.399999999999999px;">
-																	<p style="margin: 0;">By submitting the form you declare that you have read and accepted the <a href="https://bcocongresos.com/en/privacy-cookies-policy/" style="text-decoration: underline; color: #272626;">privacy policy</a> of Bco Congresos</p>
+																	<p style="margin: 0;">By submitting the form you declare that you have read and accepted the <a href="https://bcocongresos.com/en/privacy-cookies-policy/" target="_blank" style="text-decoration: underline; color: #272626;" rel="noopener">privacy policy</a> of Bco Congresos</p>
 																</div>
 															</td>
 														</tr>
@@ -1186,8 +1370,11 @@
 	</table><!-- End -->
 </body>
 
-</html>`,
-            "ca_con": `<!DOCTYPE html>
+</html>`;
+          }
+        } else if (idiomaValue === "ca") {
+          if (direccionValue) {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -1286,7 +1473,7 @@
 				padding: 20px !important;
 			}
 		}
-	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: transparent !important}</style><![endif]-->
 </head>
 
 <body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
@@ -1298,7 +1485,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1315,7 +1502,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1332,7 +1519,7 @@
 														<tr>
 															<td class="pad" style="padding-right:15px;width:100%;padding-left:0px;">
 																<div class="alignment" align="center" style="line-height:10px">
-																	<div style="max-width: 180px;"><a href="https://bcocongresos.com/en/" target="_blank" style="outline:none" tabindex="-1"><img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="180" alt="Bco Congresos" title="Bco Congresos" height="auto"></a></div>
+																	<div style="max-width: 180px;"><a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1"><img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="180" alt="Bco Congresos" title="Bco Congresos" height="auto"></a></div>
 																</div>
 															</td>
 														</tr>
@@ -1354,7 +1541,7 @@
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
 																	<p style="margin: 0; margin-bottom: 3px;">Pl. Europa, 17-19 1ª planta - 08908&nbsp;</p>
 																	<p style="margin: 0; margin-bottom: 3px;">L’Hospitalet de Llobregat, Barcelona</p>
-																	<p style="margin: 0; margin-bottom: 3px;">número</p>
+																	<p style="margin: 0; margin-bottom: 3px;">numero</p>
 																	<p style="margin: 0; margin-bottom: 3px;"><a href="mailto:coche" target="_blank" title="coche" style="text-decoration: none; color: #272626;" rel="noopener">coche</a></p>
 																	<p style="margin: 0;"><a href="http://moto" target="_blank" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
 																</div>
@@ -1382,7 +1569,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1423,8 +1610,9 @@
 	</table><!-- End -->
 </body>
 
-</html>`,
-            "ca_sin": `<!DOCTYPE html>
+</html>`;
+          } else {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -1519,7 +1707,7 @@
 				padding: 20px !important;
 			}
 		}
-	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: transparent !important}</style><![endif]-->
 </head>
 
 <body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
@@ -1531,7 +1719,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1548,7 +1736,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; border-radius: 0; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1585,7 +1773,7 @@
 														<tr>
 															<td class="pad">
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
-																	<p style="margin: 0; margin-bottom: 5px;">número</p>
+																	<p style="margin: 0; margin-bottom: 5px;">numero</p>
 																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" target="_blank" title="coche" style="text-decoration: none; color: #272626;" rel="noopener">coche</a></p>
 																	<p style="margin: 0;"><a href="http://moto" target="_blank" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
 																</div>
@@ -1613,7 +1801,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 900px; margin: 0 auto;" width="900">
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent; color: #000000; width: 900px; margin: 0 auto;" width="900">
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -1635,7 +1823,7 @@
 														<tr>
 															<td class="pad" style="padding-bottom:20px;padding-top:20px;">
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:12px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:center;mso-line-height-alt:14.399999999999999px;">
-																	<p style="margin: 0;">En enviar el formulari vostè manifesta haver llegit i acceptat la <a href="https://bcocongresos.com/privacidad-cookies/" target="_blank" style="text-decoration: underline; color: #272626;" rel="noopener">política de privacitat</a> de Bco Congresos.</p>
+																	<p style="margin: 0;">En enviar el formulari vostè manifesta haver llegit i acceptat la <a href="https://bcocongresos.com/privacidad-cookies/" target="_blank" style="text-decoration: underline; color: #272626;" rel="noopener">política de privacitat</a> de Bco Congresos</p>
 																</div>
 															</td>
 														</tr>
@@ -1654,8 +1842,261 @@
 	</table><!-- End -->
 </body>
 
-</html>`,
-            "nueva": `<!DOCTYPE html>
+</html>`;
+          }
+        }
+      } else if (tipoFooterValue === "carta-confirmacion") {
+        if (idiomaValue === "es") {
+          if (direccionValue) {
+            plantilla = `<style>
+	@media screen and (max-width: 900px) {
+		.row-content {
+			width: 100% !important;
+			max-width: 100% !important;
+		}
+	}
+</style>
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--[if mso]>
+		<xml>
+			<o:OfficeDocumentSettings>
+				<o:PixelsPerInch>96</o:PixelsPerInch>
+				<o:AllowPNG/>
+			</o:OfficeDocumentSettings>
+		</xml>
+	<![endif]-->
+	<!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css">
+	<!--<![endif]-->
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		a[x-apple-data-detectors] {
+			color: inherit !important;
+			text-decoration: inherit !important;
+		}
+
+		#MessageViewBody a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		p {
+			line-height: inherit
+		}
+
+		.desktop_hide,
+		.desktop_hide table {
+			mso-hide: all;
+			display: none;
+			max-height: 0px;
+			overflow: hidden;
+		}
+
+		.image_block img+div {
+			display: none;
+		}
+
+		sup,
+		sub {
+			font-size: 75%;
+			line-height: 0;
+		}
+
+		@media (max-width:660px) {
+			.mobile_hide {
+				display: none;
+			}
+
+			.row-content {
+				width: 100% !important;
+			}
+
+			.stack .column {
+				width: 100%;
+				display: block;
+			}
+
+			.mobile_hide {
+				min-height: 0;
+				max-height: 0;
+				max-width: 0;
+				overflow: hidden;
+				font-size: 0px;
+			}
+
+			.desktop_hide,
+			.desktop_hide table {
+				display: table !important;
+				max-height: none !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block td.pad {
+				padding: 0 0 0 35px !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block .alignment div {
+				margin: 0 auto !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad>div,
+			.row-2 .column-3 .block-2.paragraph_block td.pad>div {
+				text-align: center !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad {
+				padding: 0 0 7px !important;
+			}
+
+			.row-3 .column-1 .block-1.spacer_block {
+				height: 1px !important;
+			}
+		}
+	</style>
+	<!--[if mso ]>
+		<style>
+			sup, sub { font-size: 100% !important; }
+			sup { mso-text-raise:10% }
+			sub { mso-text-raise:-10% }
+		</style>
+	<![endif]-->
+	<!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+</head>
+
+<body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent;">
+		<tbody>
+			<tr>
+				<td>
+					<table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-2" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+																<div class="alignment" align="left" style="line-height:10px">
+																	<div style="max-width: 160px;">
+																		<a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1">
+																			<img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="160" alt="Bco Congresos" title="Bco Congresos" height="auto">
+																		</a>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-3" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-bottom:5px;padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:16px;font-weight:800;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+																	<p style="margin: 0;">nombre</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+													<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+																	<p style="margin: 0; margin-bottom: 5px;">Pl. Europa, 17-19 1ª planta - 08908</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener">L’Hospitalet de Llobregat, Barcelona</a></p>
+																	<p style="margin: 0; margin-bottom: 5px;">moto</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" rel="noopener" target="_blank" title="coche" style="text-decoration: none; color: #272626;">coche</a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"></p>
+																	<p style="margin: 0;"></p>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- End -->
+</body>
+
+</html>`;
+          } else {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -1820,10 +2261,10 @@
 														<tr>
 															<td class="pad" style="padding-left:10px;">
 																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
-																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener">moto</a></p>
-																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" rel="noopener" target="_blank" title="coche" style="text-decoration: none; color: #272626;">coche</a></p>
-																	<p style="margin: 0; margin-bottom: 5px;">M. 649 428 065</p>
-																	<p style="margin: 0;">T. 938 823 878</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener"></a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:" rel="noopener" target="_blank" title="" style="text-decoration: none; color: #272626;"></a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"></p>
+																	<p style="margin: 0;">numero</p>
 																</div>
 															</td>
 														</tr>
@@ -1868,161 +2309,1067 @@
 	</table><!-- End -->
 </body>
 
-</html>` // Aquí irá el código de la nueva plantilla
-        };
+</html>`;
+          }
+        } else if (idiomaValue === "en") {
+          if (direccionValue) {
+            plantilla = `<style>
+	@media screen and (max-width: 900px) {
+		.row-content {
+			width: 100% !important;
+			max-width: 100% !important;
+		}
+	}
+</style>
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
-        function toggleHousing() {
-            const housingCheckbox = document.getElementById('housing');
-            const housingFieldContainer = document.getElementById('housingFieldContainer');
-            const nombreSelect = document.getElementById('nombre');
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--[if mso]>
+		<xml>
+			<o:OfficeDocumentSettings>
+				<o:PixelsPerInch>96</o:PixelsPerInch>
+				<o:AllowPNG/>
+			</o:OfficeDocumentSettings>
+		</xml>
+	<![endif]-->
+	<!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css">
+	<!--<![endif]-->
+	<style>
+		* {
+			box-sizing: border-box;
+		}
 
-            if (housingCheckbox.checked) {
-                housingFieldContainer.style.display = 'block';
-                nombreSelect.disabled = true;
-            } else {
-                housingFieldContainer.style.display = 'none';
-                nombreSelect.disabled = false;
-            }
-        }
+		body {
+			margin: 0;
+			padding: 0;
+		}
 
-        function toggleNuevaPlantilla() {
-            const nuevaPlantillaCheckbox = document.getElementById('nuevaPlantilla');
-            const idiomaSelect = document.getElementById('idioma');
-            const direccionCheckbox = document.getElementById('direccion');
-            const oficinaSelect = document.getElementById('telefonoLugar');
-            const nombreSelect = document.getElementById('nombre');
+		a[x-apple-data-detectors] {
+			color: inherit !important;
+			text-decoration: inherit !important;
+		}
 
-            if (nuevaPlantillaCheckbox.checked) {
-                idiomaSelect.disabled = true;
-                direccionCheckbox.disabled = true;
-                oficinaSelect.disabled = true;
+		#MessageViewBody a {
+			color: inherit;
+			text-decoration: none;
+		}
 
-                nombreSelect.innerHTML = '';
-                const todasLasOpciones = [
-                    'Secretaría Técnica', 'Agencia Organizadora',
-                    'Technical Secretariat', 'Organizing Agency', 'Housing Agency',
-                    'Agència Organitzadora', 'Secretaria Tècnica'
-                ];
+		p {
+			line-height: inherit
+		}
 
-                todasLasOpciones.forEach(function(opcion) {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = opcion;
-                    optionElement.textContent = opcion;
-                    nombreSelect.appendChild(optionElement);
-                });
-            } else {
-                idiomaSelect.disabled = false;
-                direccionCheckbox.disabled = false;
-                oficinaSelect.disabled = false;
-                idiomaSelect.dispatchEvent(new Event('change'));
-            }
-        }
+		.desktop_hide,
+		.desktop_hide table {
+			mso-hide: all;
+			display: none;
+			max-height: 0px;
+			overflow: hidden;
+		}
 
-        function generarCodigo() {
-            const nuevaPlantillaChecked = document.getElementById('nuevaPlantilla').checked;
-            const idioma = document.getElementById('idioma').value;
-            const incluirDireccion = document.getElementById('direccion').checked;
-            const housingChecked = document.getElementById('housing').checked;
-            const nombreCongreso = document.getElementById('nombreCongreso').value;
-            const nombreSeleccionado = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            const web = document.getElementById('web').value;
-            const telefonoTipo = document.getElementById('telefonoTipo').value;
-            const telefonoLugar = document.getElementById('telefonoLugar').value;
+		.image_block img+div {
+			display: none;
+		}
 
-            let key = nuevaPlantillaChecked ? 'nueva' : `${idioma}_${incluirDireccion ? 'con' : 'sin'}`;
-            let codigo = codigos[key];
+		sup,
+		sub {
+			font-size: 75%;
+			line-height: 0;
+		}
 
-            if (!codigo) {
-                document.getElementById('codigoGenerado').value = "No se encontró un código correspondiente.";
-                return;
-            }
+		@media (max-width:660px) {
+			.mobile_hide {
+				display: none;
+			}
 
-            const prefijo = telefonoTipo === 'internacional' ? '+34 ' : '';
-            const numero = telefonoLugar === 'barcelona' ? '938 823 878' : '954 224 095';
-            codigo = codigo.replaceAll('número', `${prefijo}${numero}`);
+			.row-content {
+				width: 100% !important;
+			}
 
-            if (telefonoLugar === 'sevilla') {
-                codigo = codigo.replace('Pl. Europa, 17-19 1ª planta - 08908', 'C/ Gonzalo Bilbao 23-25, 2ª planta, mód 9-10');
-                codigo = codigo.replace('L’Hospitalet de Llobregat, Barcelona', '41003 Sevilla, España');
-            }
+			.stack .column {
+				width: 100%;
+				display: block;
+			}
 
-            if (housingChecked && nombreCongreso.trim() !== '') {
-                const housingName = `${nombreCongreso} | Official Housing Agency`;
-                codigo = codigo.replace('nombre', housingName);
-            } else {
-                codigo = codigo.replace('nombre', nombreSeleccionado);
-            }
+			.mobile_hide {
+				min-height: 0;
+				max-height: 0;
+				max-width: 0;
+				overflow: hidden;
+				font-size: 0px;
+			}
 
-            if (email) {
-                codigo = codigo.replace(/coche/g, email);
-            } else {
-                codigo = codigo.replace(/coche/g, '');
-            }
+			.desktop_hide,
+			.desktop_hide table {
+				display: table !important;
+				max-height: none !important;
+			}
 
-            if (web) {
-                codigo = codigo.replace(/moto/g, web);
-            } else {
-                codigo = codigo.replace(/moto/g, '');
-            }
+			.row-2 .column-2 .block-1.image_block td.pad {
+				padding: 0 0 0 35px !important;
+			}
 
-            document.getElementById('codigoGenerado').value = codigo;
-        }
+			.row-2 .column-2 .block-1.image_block .alignment div {
+				margin: 0 auto !important;
+			}
 
-        function copiarCodigo() {
-            const codigo = document.getElementById('codigoGenerado');
-            codigo.select();
-            document.execCommand('copy');
-            alert("Código copiado al portapapeles.");
-        }
+			.row-2 .column-3 .block-1.paragraph_block td.pad>div,
+			.row-2 .column-3 .block-2.paragraph_block td.pad>div {
+				text-align: center !important;
+			}
 
-        function openModal() {
-            const codigo = document.getElementById('codigoGenerado').value;
-            const modal = document.getElementById('myModal');
-            const vistaPrevia = document.getElementById('vistaPrevia');
-            vistaPrevia.src = "data:text/html;charset=utf-8," + encodeURIComponent(codigo);
-            modal.style.display = "block";
-        }
+			.row-2 .column-3 .block-1.paragraph_block td.pad {
+				padding: 0 0 7px !important;
+			}
 
-        function closeModal() {
-            const modal = document.getElementById('myModal');
-            modal.style.display = "none";
-        }
+			.row-3 .column-1 .block-1.spacer_block {
+				height: 1px !important;
+			}
+		}
+	</style>
+	<!--[if mso ]>
+		<style>
+			sup, sub { font-size: 100% !important; }
+			sup { mso-text-raise:10% }
+			sub { mso-text-raise:-10% }
+		</style>
+	<![endif]-->
+	<!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+</head>
 
-        document.getElementById('idioma').addEventListener('change', function() {
-            const idioma = this.value;
-            const nombreSelect = document.getElementById('nombre');
-            nombreSelect.innerHTML = '';
-
-            if (idioma === 'es') {
-                const opciones = ['Secretaría Técnica', 'Agencia Organizadora'];
-                opciones.forEach(function(opcion) {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = opcion;
-                    optionElement.textContent = opcion;
-                    nombreSelect.appendChild(optionElement);
-                });
-            } else if (idioma === 'en') {
-                const opciones = ['Technical Secretariat', 'Organizing Agency', 'Housing Agency'];
-                opciones.forEach(function(opcion) {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = opcion;
-                    optionElement.textContent = opcion;
-                    nombreSelect.appendChild(optionElement);
-                });
-            } else if (idioma === 'ca') {
-                const opciones = ['Agència Organitzadora', 'Secretaria Tècnica'];
-                opciones.forEach(function(opcion) {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = opcion;
-                    optionElement.textContent = opcion;
-                    nombreSelect.appendChild(optionElement);
-                });
-            }
-        });
-
-        document.getElementById('idioma').dispatchEvent(new Event('change'));
-    </script>
+<body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent;">
+		<tbody>
+			<tr>
+				<td>
+					<table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-2" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+																<div class="alignment" align="left" style="line-height:10px">
+																	<div style="max-width: 160px;">
+																		<a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1">
+																			<img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="160" alt="Bco Congresos" title="Bco Congresos" height="auto">
+																		</a>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-3" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-bottom:5px;padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:16px;font-weight:800;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+																	<p style="margin: 0;">nombre</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+													<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+																	<p style="margin: 0; margin-bottom: 5px;">Pl. Europa, 17-19 1ª planta - 08908</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener">L’Hospitalet de Llobregat, Barcelona</a></p>
+																	<p style="margin: 0; margin-bottom: 5px;">moto</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" rel="noopener" target="_blank" title="coche" style="text-decoration: none; color: #272626;">coche</a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"></p>
+																	<p style="margin: 0;"></p>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- End -->
 </body>
 
+</html>`;
+          } else {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]--><!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css"><!--<![endif]-->
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		a[x-apple-data-detectors] {
+			color: inherit !important;
+			text-decoration: inherit !important;
+		}
+
+		#MessageViewBody a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		p {
+			line-height: inherit
+		}
+
+		.desktop_hide,
+		.desktop_hide table {
+			mso-hide: all;
+			display: none;
+			max-height: 0px;
+			overflow: hidden;
+		}
+
+		.image_block img+div {
+			display: none;
+		}
+
+		sup,
+		sub {
+			font-size: 75%;
+			line-height: 0;
+		}
+
+		@media (max-width:660px) {
+			.mobile_hide {
+				display: none;
+			}
+
+			.row-content {
+				width: 100% !important;
+			}
+
+			.stack .column {
+				width: 100%;
+				display: block;
+			}
+
+			.mobile_hide {
+				min-height: 0;
+				max-height: 0;
+				max-width: 0;
+				overflow: hidden;
+				font-size: 0px;
+			}
+
+			.desktop_hide,
+			.desktop_hide table {
+				display: table !important;
+				max-height: none !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block td.pad {
+				padding: 0 0 0 35px !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block .alignment div {
+				margin: 0 auto !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad>div,
+			.row-2 .column-3 .block-2.paragraph_block td.pad>div {
+				text-align: center !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad {
+				padding: 0 0 7px !important;
+			}
+
+			.row-3 .column-1 .block-1.spacer_block {
+				height: 1px !important;
+			}
+		}
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+</head>
+
+<body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent;">
+		<tbody>
+			<tr>
+				<td>
+					<table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-2" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+																<div class="alignment" align="left" style="line-height:10px">
+																	<div style="max-width: 160px;"><a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1"><img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="160" alt="Bco Congresos" title="Bco Congresos" height="auto"></a></div>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-3" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-bottom:5px;padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:16px;font-weight:800;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+																	<p style="margin: 0;">nombre</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+													<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener"></a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:" rel="noopener" target="_blank" title="" style="text-decoration: none; color: #272626;"></a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"></p>
+																	<p style="margin: 0;">numero</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table><!-- End -->
+</body>
+
+</html>`;
+          }
+        } else if (idiomaValue === "ca") {
+          if (direccionValue) {
+            plantilla = `<style>
+	@media screen and (max-width: 900px) {
+		.row-content {
+			width: 100% !important;
+			max-width: 100% !important;
+		}
+	}
+</style>
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--[if mso]>
+		<xml>
+			<o:OfficeDocumentSettings>
+				<o:PixelsPerInch>96</o:PixelsPerInch>
+				<o:AllowPNG/>
+			</o:OfficeDocumentSettings>
+		</xml>
+	<![endif]-->
+	<!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css">
+	<!--<![endif]-->
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		a[x-apple-data-detectors] {
+			color: inherit !important;
+			text-decoration: inherit !important;
+		}
+
+		#MessageViewBody a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		p {
+			line-height: inherit
+		}
+
+		.desktop_hide,
+		.desktop_hide table {
+			mso-hide: all;
+			display: none;
+			max-height: 0px;
+			overflow: hidden;
+		}
+
+		.image_block img+div {
+			display: none;
+		}
+
+		sup,
+		sub {
+			font-size: 75%;
+			line-height: 0;
+		}
+
+		@media (max-width:660px) {
+			.mobile_hide {
+				display: none;
+			}
+
+			.row-content {
+				width: 100% !important;
+			}
+
+			.stack .column {
+				width: 100%;
+				display: block;
+			}
+
+			.mobile_hide {
+				min-height: 0;
+				max-height: 0;
+				max-width: 0;
+				overflow: hidden;
+				font-size: 0px;
+			}
+
+			.desktop_hide,
+			.desktop_hide table {
+				display: table !important;
+				max-height: none !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block td.pad {
+				padding: 0 0 0 35px !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block .alignment div {
+				margin: 0 auto !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad>div,
+			.row-2 .column-3 .block-2.paragraph_block td.pad>div {
+				text-align: center !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad {
+				padding: 0 0 7px !important;
+			}
+
+			.row-3 .column-1 .block-1.spacer_block {
+				height: 1px !important;
+			}
+		}
+	</style>
+	<!--[if mso ]>
+		<style>
+			sup, sub { font-size: 100% !important; }
+			sup { mso-text-raise:10% }
+			sub { mso-text-raise:-10% }
+		</style>
+	<![endif]-->
+	<!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+</head>
+
+<body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent;">
+		<tbody>
+			<tr>
+				<td>
+					<table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-2" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+																<div class="alignment" align="left" style="line-height:10px">
+																	<div style="max-width: 160px;">
+																		<a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1">
+																			<img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="160" alt="Bco Congresos" title="Bco Congresos" height="auto">
+																		</a>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-3" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-bottom:5px;padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:16px;font-weight:800;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+																	<p style="margin: 0;">nombre</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+													<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+																	<p style="margin: 0; margin-bottom: 5px;">Pl. Europa, 17-19 1ª planta - 08908</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener">L’Hospitalet de Llobregat, Barcelona</a></p>
+																	<p style="margin: 0; margin-bottom: 5px;">moto</p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:coche" rel="noopener" target="_blank" title="coche" style="text-decoration: none; color: #272626;">coche</a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"></p>
+																	<p style="margin: 0;"></p>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- End -->
+</body>
+
+</html>`;
+          } else {
+            plantilla = `<style> @media screen and (max-width: 900px) { .row-content { width: 100% !important; max-width: 100% !important; } } </style>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]--><!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css"><!--<![endif]-->
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		a[x-apple-data-detectors] {
+			color: inherit !important;
+			text-decoration: inherit !important;
+		}
+
+		#MessageViewBody a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		p {
+			line-height: inherit
+		}
+
+		.desktop_hide,
+		.desktop_hide table {
+			mso-hide: all;
+			display: none;
+			max-height: 0px;
+			overflow: hidden;
+		}
+
+		.image_block img+div {
+			display: none;
+		}
+
+		sup,
+		sub {
+			font-size: 75%;
+			line-height: 0;
+		}
+
+		@media (max-width:660px) {
+			.mobile_hide {
+				display: none;
+			}
+
+			.row-content {
+				width: 100% !important;
+			}
+
+			.stack .column {
+				width: 100%;
+				display: block;
+			}
+
+			.mobile_hide {
+				min-height: 0;
+				max-height: 0;
+				max-width: 0;
+				overflow: hidden;
+				font-size: 0px;
+			}
+
+			.desktop_hide,
+			.desktop_hide table {
+				display: table !important;
+				max-height: none !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block td.pad {
+				padding: 0 0 0 35px !important;
+			}
+
+			.row-2 .column-2 .block-1.image_block .alignment div {
+				margin: 0 auto !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad>div,
+			.row-2 .column-3 .block-2.paragraph_block td.pad>div {
+				text-align: center !important;
+			}
+
+			.row-2 .column-3 .block-1.paragraph_block td.pad {
+				padding: 0 0 7px !important;
+			}
+
+			.row-3 .column-1 .block-1.spacer_block {
+				height: 1px !important;
+			}
+		}
+	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]--><!--[if true]><style>.forceBgColor{background-color: white !important}</style><![endif]-->
+</head>
+
+<body class="body forceBgColor" style="background-color: transparent; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: transparent;">
+		<tbody>
+			<tr>
+				<td>
+					<table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-2" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+																<div class="alignment" align="left" style="line-height:10px">
+																	<div style="max-width: 160px;"><a href="https://bcocongresos.com/" target="_blank" style="outline:none" tabindex="-1"><img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/558435_539723/Logo_Bco_Congresos_negro.png" style="display: block; height: auto; border: 0; width: 100%;" width="160" alt="Bco Congresos" title="Bco Congresos" height="auto"></a></div>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-3" width="33.333333333333336%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-bottom:5px;padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:16px;font-weight:800;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+																	<p style="margin: 0;">nombre</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+													<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+														<tr>
+															<td class="pad" style="padding-left:10px;">
+																<div style="color:#272626;direction:ltr;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;font-size:13px;font-weight:500;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="https://seup2025.com/" target="_blank" title="https://seup2025.com/" style="text-decoration: none; color: #272626;" rel="noopener"></a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"><a href="mailto:" rel="noopener" target="_blank" title="" style="text-decoration: none; color: #272626;"></a></p>
+																	<p style="margin: 0; margin-bottom: 5px;"></p>
+																	<p style="margin: 0;">numero</p>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+														<tr>
+															<td class="pad">
+																<div></div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+						<tbody>
+							<tr>
+								<td>
+									<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 640px; margin: 0 auto;" width="640">
+										<tbody>
+											<tr>
+												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+													<div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table><!-- End -->
+</body>
+
+</html>`;
+          }
+        }
+      }
+
+      // Reemplazo para el marcador "nombre":
+      // Si Housing está activado, se usará el valor ingresado (más el texto de agencia)
+      if (housingActive) {
+        const housingName = document.getElementById("nombreCongreso").value.trim();
+        if (housingName) {
+          let agencyText = "";
+          // Aquí se usaba anteriormente el idioma para determinar el texto de agencia;
+          // se mantiene ese comportamiento en Housing.
+          if (idiomaValue === "en") agencyText = "Official Housing Agency";
+          else if (idiomaValue === "es") agencyText = "Agencia Oficial de Alojamiento";
+          else if (idiomaValue === "ca") agencyText = "Agència Oficial d'Habitatge";
+
+          plantilla = plantilla.replace(/nombre/g, `${housingName} | ${agencyText}`);
+        }
+      } else {
+        // Si no está activada la opción de Housing, se reemplaza "nombre" por el valor por defecto
+        let defaultName = "";
+        if (idiomaValue === "es") {
+          defaultName = (tipoCongresoValue === "nacional") ? "Secretaria Tecnica" : "Agencia Organizadora";
+        } else if (idiomaValue === "en") {
+          defaultName = "Technical Secretariat";
+        } else if (idiomaValue === "ca") {
+          defaultName = "Agència Organitzadora";
+        }
+        plantilla = plantilla.replace(/nombre/g, defaultName);
+      }
+
+      // Procesar reemplazos según el desplegable de oficina:
+      // 1. Si se incluye dirección y la oficina es Sevilla, se modifican las direcciones
+      if (direccionValue && oficinaValue === "sevilla") {
+        plantilla = plantilla.replace("Pl. Europa, 17-19 1ª planta - 08908", "C/ Gonzalo Bilbao 23-25, 2ª planta, mód 9-10");
+        plantilla = plantilla.replace("L’Hospitalet de Llobregat, Barcelona", "41003 Sevilla, España");
+      }
+      // 2. Reemplazo del marcador "numero" según la oficina
+      if (oficinaValue === "barcelona") {
+        plantilla = plantilla.replace("numero", "938 823 878");
+      } else if (oficinaValue === "sevilla") {
+        plantilla = plantilla.replace("numero", "954 224 095");
+      }
+      // Si el Tipo de Congreso es Internacional, se añade "+34 " al número telefónico
+      if (tipoCongresoValue === "internacional") {
+        if (oficinaValue === "barcelona") {
+          plantilla = plantilla.replace("938 823 878", "+34 938 823 878");
+        } else if (oficinaValue === "sevilla") {
+          plantilla = plantilla.replace("954 224 095", "+34 954 224 095");
+        }
+      }
+
+      // Reemplazar "coche" por el valor del email, o eliminarlo si está vacío.
+      const emailValue = document.getElementById("email").value.trim();
+      if (emailValue) {
+        plantilla = plantilla.replace(/coche/g, emailValue);
+      } else {
+        plantilla = plantilla.replace(/coche/g, "");
+      }
+
+      // Reemplazar "moto" por el valor de web, o eliminarlo si está vacío.
+      const webValue = document.getElementById("web").value.trim();
+      if (webValue) {
+        plantilla = plantilla.replace(/moto/g, webValue);
+      } else {
+        plantilla = plantilla.replace(/moto/g, "");
+      }
+
+      // Almacenar el código generado en la variable global
+      generatedCode = plantilla;
+
+      // Mostrar el código en la vista previa
+      preview.innerText = plantilla || "El código generado se mostrará aquí...";
+      preview.insertAdjacentElement("afterbegin", copyButton);
+    };
+
+    // Generar el código al hacer clic en el botón "Generar"
+    document.getElementById("generate-button").addEventListener("click", generateCode);
+
+    // Al hacer clic en el cuadro de vista previa (excepto sobre el botón copiar)
+    preview.addEventListener("click", (e) => {
+      if (e.target === copyButton) return;
+      if (generatedCode) {
+        modalBody.innerHTML = generatedCode;
+        modal.style.display = "block";
+      }
+    });
+
+    // Función para copiar el código generado al portapapeles
+    copyButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(generatedCode || "")
+        .then(() => {
+          alert("Código copiado al portapapeles");
+        })
+        .catch(err => {
+          alert("Error al copiar el código: " + err);
+        });
+    });
+
+    // Cerrar el modal al hacer clic en la "x"
+    modalClose.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Cerrar el modal al hacer clic fuera del contenido
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    // Configuración y manejo del modo claro/oscuro
+    const themeToggle = document.getElementById("theme-toggle");
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
+      themeToggle.checked = true;
+    } else {
+      document.body.classList.remove("dark-mode");
+      themeToggle.checked = false;
+    }
+    themeToggle.addEventListener("change", function () {
+      if (this.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("theme", "light");
+      }
+    });
+  </script>
+</body>
 </html>
